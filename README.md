@@ -18,6 +18,8 @@ For all of those VMs, you'll need:
 - Intel VT-d or AMD-Vi enabled in BIOS
 - IOMMU enabled in BIOS
 - [kernel parametres with IOMMU enabled](Global/IOMMU.md)
+- libvirt + qemu installed
+- Virtual Machine Manager (Optional, recommended)
 
 # Setups
 [Windows 10/11](Windows%2010.md)<br>
