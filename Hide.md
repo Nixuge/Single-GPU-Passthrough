@@ -1,29 +1,32 @@
 # Hide the VM 
 
-### By default, the VM isn't hidden at all and can be easily detected by some popular anti cheats. What if we want to avoid that?
+### By default, the VM isn't hidden at all and can be easily detected by some popular anti cheats (and can eventually ban your host machine cough cough vanguard). We want to avoid this.
 
 ## Disclaimer
-Some games **will** still detect the VM (except maybe if you do some obscure tricks, and even then you're not guaranteed to not get detected/silent flagged and then banned). I'm mostly talking about Valorant and their shitty AC which doesn't even work properly on plain windows. Tbh just avoid those games altogether.
+Some games **will** still detect the VM (except maybe if you do some obscure tricks, and even then you're not guaranteed to not get detected/silent flagged). I'm mostly talking about Valorant and their fucking kernel-side AC which litteraly still doesnt work on plain windows after 4 years of developpement. Tbh just avoid valorant or battlefield V.
 
 
-# Avoid code 43 on nvidia cards (OUTDATED)
+# Avoid code 43 on nvidia cards / Allow screen rotation on AMD GPUs
 
 ### This isn't needed anymore if you got updated drivers as nvidia removed those restrictions, but still leaving that here.
+### AMD still cant make their driver work even when installed properly so heres the fix for 144hz+ and screen rotation
 
-Find your hyperv part inside the xml, and add the same vendor id tag as in the example below:
+Edit your VM's xml (google "virtmanager edit xml" if you dont know how to do)
 ```xml
     <hyperv mode="custom">
-      ...
-      ...
-        <vendor_id state='on' value='123123123eee'/>
-    </hyperv>
-```
-Next, right under the losing hyperv tag, add the same lines as below:
-```xml
+        ...
+        ...
+        <relaxed state='on'/>
+        <vapic state='on'/>
+        <spinlocks state='on' retries='8191'/>
+        <vendor_id state='on' value='whateveryouwant'/>
     </hyperv>
     <kvm>
         <hidden state='on'/>
     </kvm>
+    <vmport state='off'/>
+    <ioapic driver='kvm'/>
+
 ```
 
 
@@ -82,7 +85,7 @@ Find your cpu tag, and inside of it add the 2 features lines in the example belo
 > See [#Recompile Qemu with fixes](#recompile-qemu-with-fixes)
 
 #### Permanent easier fix:
-> [Download this file](assets/hide/HideVM.reg) and run it on startup (shell:startup folder)
+> [Download this file](assets/hide/HideVM.reg) and run it on startup (win+r then shell:startup)
 
 ### [\*] cpuid CPU brand string 'QEMU Virtual CPU' ... traced!
 > Change your CPU model to something else, usually "Host Passthrough" is recommended.

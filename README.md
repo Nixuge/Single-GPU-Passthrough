@@ -1,28 +1,29 @@
 # Single GPU Passthrough
-Welcome to this guide to help you make a VM w GPU Passthrough on Linux.<br>
-This guide was written on ArchLinux with the Linux-Zen kernel and an RTX 2080.<br>
-Altho not recommended, most thing here should on pretty much any other recent Linux distro. Feel free to try it out anyways !
+This guide aims to help you to create a VM with GPU passthrough on Linux<br>
 
-# Credits
-[Click here to get to the credits.](CREDITS.md)<br>
-I recommend checking some of those out if this guide doesn't work for some reason. A lot of the ressources are taken straight up from those and adapted a bit.
-
-# Help
-If you need help, you can ask for support here:<br>
-[Issues page (prefeered)](https://github.com/nixuge/Single_GPU_Passthrough/Issues)<br>
-[The r/vfio subreddit](https://reddit.com/r/vfio)<br>
-[Personal contact](https://nixuge.me)<br>
+This guide was written for ArchLinux w/ Linux-zen kernel and a RTX 2080 but it should work for any other configurations awa others linux arch or debian based distros (tho not recommended). Feel free to try it out anyways !<br>
 
 # Global requirements
 For all of those VMs, you'll need:
-- Intel VT-d or AMD-Vi enabled in BIOS
-- IOMMU enabled in BIOS
-- [kernel parametres with IOMMU enabled](Global/IOMMU.md)
+all these conditions must be met before getting into the first section (tldr you cannot follow this tutorial if your pc does not have UEFI)
+- Intel VT-d or AMD-Vi or whatever its called enabled in the BIOS
+- IOMMU enabled as well
+- [kernel parametres with IOMMU enabled](Global/IOMMU.md) <- should follow this before going to the next section
 - libvirt + qemu installed
-- Virtual Machine Manager (Optional, recommended)
+- virt-manager (optional but highly recommended cuz fuck command line) 
 
-# Setups
+# Getting started:
 [Windows 10/11](Windows%2010.md)<br>
-[Windows 7](Windows%207.md)<br>
-Additional:<br>
-[Hide the VM (win10)](Hide.md)
+[Windows 7](Windows%207.md) <- unstable asf please use windows 10 i swear<br>  
+Optional:<br>
+[Hide the VM (win10)](Hide.md) <- required if you wanna play valorant or anticheat-dependant games
+
+
+# Obligatory help related section
+You can ask for help here if you're in need: <br>
+[Issues page (preferred)](https://github.com/nixuge/Single_GPU_Passthrough/Issues)<br>
+[r/vfio subreddit](https://reddit.com/r/vfio)<br>
+[Personal contact](https://nixuge.me)<br>
+
+[click me](CREDITS.md)<br>
+If for some obscure reasons the guide does not work for you I recommend checking out some of those. Many of the resources here are just taken up from these and reorganized in a -readeable- way (i basically did all the research work for you now star the repo)

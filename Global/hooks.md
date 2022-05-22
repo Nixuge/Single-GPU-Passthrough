@@ -1,6 +1,7 @@
 # Initial setup:
 We're going to use hooks to run instructions before and after running our VMs.<br>
-The setup is pretty straight forward, [the instructions are taken from here](https://passthroughpo.st/simple-per-vm-libvirt-hooks-with-the-vfio-tools-hook-helper/). Just run these commands:
+The setup is pretty straight forward, [the instructions are taken from here](https://passthroughpo.st/simple-per-vm-libvirt-hooks-with-the-vfio-tools-hook-helper/). 
+Just the following commands:<br>
 ```sh
 sudo mkdir -p /etc/libvirt/hooks
 sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
@@ -9,8 +10,8 @@ sudo chmod +x /etc/libvirt/hooks/qemu
 sudo service libvirtd restart
 ```
 
-Now that that's done, we have to setup the actual hooks for our vm.
-We aim for a file structure like this:
+Next, we have to setup the actual hooks for our vm.<br>
+We aim for a file structure like this:<br>
 
 ```
 /etc/libvirt/hooks
@@ -25,7 +26,7 @@ We aim for a file structure like this:
                 └── revert.sh
 ```
 
-To do that, run these commands (replace {VM Name} w the name of tme vm you created on the previous step):
+To achieve this, run these commands (replace {VM Name} by the name of your vm):
 ```sh
 sudo mkdir -p /etc/libvirt/hooks/qemu.d/{VM Name}/prepare/begin
 sudo mkdir -p /etc/libvirt/hooks/qemu.d/{VM Name}/release/end
@@ -44,8 +45,12 @@ for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
     done;
 done;
 ```
-You should see some long output with IOMMU groups. What you need to do inside that is find your GPU IDs, and assure that all of it is either inside the same group or separated into multiple groups with nothing else inside.<br><br>
-As an example for me, i've got this output:
+You should see some long output with the actual IOMMU groups. <br>
+You need to find your GPU IDs in this mess and ensure that **all your gpu ids** are either inside **the same group** or separated into **multiple groups**.<br>
+
+In case of multiple groups, **make sure** that the ID is isolated and alone in the group, if it's not, [issues section](https://github.com/nixuge/Single_GPU_Passthrough/Issues)<br>
+
+As an example, ive got this output:<br>
 ```
 IOMMU Group 24:
 	24:00.0 Network controller [0280]: Intel Corporation Wireless 8260 [8086:24f3] (rev 3a)
@@ -60,8 +65,9 @@ IOMMU Group 28:
 IOMMU Group 29:
 	27:00.3 Serial bus controller [0c80]: NVIDIA Corporation TU104 USB Type-C UCSI Controller [10de:1ad9] (rev a1)
 ```
-Note that my graphic card is in 4 different groups here because i'm using the zen kernel. If you're using the regular one, all of them should be inside of one. Both of those options are fine.<br><br>
-The IDs we're looking for are in this example:
+
+Note that my graphic card is splitted in 4 different groups because i'm using the **zen kernel**. If you're using the regular one, all of them should be inside of one. Both of those options are **fine**.<br><br>
+In this example, the IDs we're looking for are:
 - 27:00.0
 - 27:00.1
 - 27:00.2
@@ -69,10 +75,10 @@ The IDs we're looking for are in this example:
 
 
 
-# Startup script
-This is the script to be used when starting the VM. It'll be used to unbind the GPU from your main os. [Mostly taken from joeknock90's guide](https://github.com/joeknock90/Single-GPU-Passthrough#start-script)<br>
+## Startup script
+This script is going to be used when starting the VM. Its utilized to unbind the GPU from your host machine. [Mostly copy pasted from joeknock90's guide](https://github.com/joeknock90/Single-GPU-Passthrough#start-script)<br>
 
-Put the following script in `/etc/libvirt/hooks/qemu.d/{VM Name}/prepare/begin/start.sh` and configure it to your needs
+Put the following script in `/etc/libvirt/hooks/qemu.d/{VM Name}/prepare/begin/start.sh` and configure it to your needs<br>
 ```sh
 #!/bin/bash
 # Helpful to read output when debugging
@@ -116,8 +122,8 @@ modprobe vfio-pci
 ```
 
 
-# Shutdown script
-This is the script to be used when stopping the VM. [Mostly taken from joeknock90's guide](https://github.com/joeknock90/Single-GPU-Passthrough#start-script)<br>
+## Shutdown script
+This script is going to be used when stopping the VM. [still joeknock90's guide](https://github.com/joeknock90/Single-GPU-Passthrough#start-script)<br>
 
 Put the following script in `/etc/libvirt/hooks/qemu.d/{VM Name}/release/end/revert.sh` and configure it to your needs
 ```sh
@@ -151,8 +157,9 @@ echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi->
 systemctl start gdm.service
 ```
 
-# Permissions
+## Permissions /!\ **IMPORTANT**
 Run:
+Replace VM Name by your vm's name<br>
 ```sh
 sudo chmod +x /etc/libvirt/hooks/qemu.d/{VM Name}/prepare/begin/start.sh
 sudo chmod +x /etc/libvirt/hooks/qemu.d/{VM Name}/release/end/revert.sh
@@ -160,4 +167,9 @@ sudo chmod +x /etc/libvirt/hooks/qemu.d/{VM Name}/release/end/revert.sh
 
 # Alternatives
 
-If the following didn't work for you (it should and you can open an issue, but if it still doesn't) you can try out other hooks [like those](https://gitlab.com/risingprismtv/single-gpu-passthrough), they're easier to setup but for some reason didn't work for me
+If the previous didn't work for you (it should, you can open an issue) <br>
+If the issue pages didnt solve your problem, you can try out the [rising prism hooks](https://gitlab.com/risingprismtv/single-gpu-passthrough), they're specially made for AMD GPU users.
+
+# Go back
+[Go back to the w10/11 guide](Windows%2010.md)<br>
+[same but for windows 7](Windows%207.md)<br> 

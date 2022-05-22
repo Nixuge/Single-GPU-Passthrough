@@ -1,7 +1,8 @@
 # Requirements
-- A working Windows 7 ISO
-- Another PC with a VNC Viewer
-- [The .iso file from here](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.173-9/)
+- time
+- w7 iso
+- another pc or phone with a VNC viewer
+- [this iso file](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.173-9/)
 
 # Basic VM Setup:
 First, create a VM:<br>
@@ -11,13 +12,14 @@ First, create a VM:<br>
 <img src="assets/win7/CreateVm2.png" width="400"/>
 <img src="assets/Global/CreateVm3.png" width="400"/><br>
 
-You can change the disk size to whathever you want here<br>
+Use any disk size you want (superior to 60 just in case)<br>
 <img src="assets/Global/CreateVm4.png" width="400"/><br>
 
 On the last step, make sure to hit "Customize configuration before install"<br>
 <img src="assets/win7/CreateVm5.png" width="400"/><br>
 
-After that you should have this screen. On firmware, select the UEFI x86_64 like in the screenshot<br>
+After that you should be redirected on this screen.<br>
+On firmware, select UEFI x86_64 like in the screenshot **not bios**<br>
 <img src="assets/win7/CreateVmConfigure1.png" width="800"/><br>
 
 
@@ -26,8 +28,8 @@ After that you should have this screen. On firmware, select the UEFI x86_64 like
 ### I won't add a screenshot for everything since it'd be unnecessary, but here are the changes you need to make:
 - CPU tab, set vCPU allocation to 1
 - disk, set bus to VirtIO
-- NIC (network), set device model to virtio
-- Display Spice, change to Display VNC
+- NIC (network), set device model to **virtio**
+- change to Display Spice to Display VNC 
 - Add a CD-Rom pointing to the iso file you got in the requirements
 
 
@@ -35,14 +37,14 @@ After that you should have this screen. On firmware, select the UEFI x86_64 like
 
 ## Installation 
 You can now launch the VM. It should boot normally to the installer, don't forget to hit a key when it prompts you to.<br>
-When you're at the installer, at the disk step, you'll get an error. Just hit the button to load drivers from a disk, select the disk you added in the previous step and it should automatically find the disk driver (select the win7 one)
+When you're on the installer screen, at the disk step, you'll get an error. Hit the button to load drivers from a disk, select the disk you added in the previous step and it should automatically find the disk driver (select the win7 one)
 ## Network Driver
-Once you're booted into windows, Open the device manager. Your "ethernet" device should show up with a warning sign. Right click on it and install a driver for it. When it asks you to locate the driver, select "local" and point it to the VirtIO disk (make sure you checked the 'subfolders' option!) You should now have some internet on your VM (if you don't, reboot). While you're at it, take some time to install firefox now.
+Once you're booted into windows, Open the device manager. Your "ethernet" device should show up with a warning sign. Right click on it and choose "install a driver" or whatever its called. When it asks you to locate the driver, select "local" and point it to the VirtIO disk (**make sure you checked the 'subfolders' option!**) You should now have internet access on your VM (if it's not the case, reboot). While you're at it, take some time to install a web browser (firefox).
 
 
 # Configure Qemu
 
-### IMPORTANT NOTE: this technically decreases security, since it'll run qemu as root, but oh well. There's a way to make it work without that, but i'm still having trouble making it work.
+### IMPORTANT NOTE: this technically decreases security (but do we care?), since it'll run qemu as root. There's a way to make it work without obliterating security but lol lazy fuck.
 
 Edit `/etc/libvirt/qemu.conf` and add those lines on top:
 
@@ -53,11 +55,13 @@ user = "+0"
 
 
 # Hooks:
-[See this page on how to setup hooks](Global/hooks.md)
+Those will basically hook your graphic card into the VM and and vice versa when you shut it down.<br>
+[Click this before continuing](Global/hooks.md)
 
 
 # Add the GPU to the VM
-### Note: don't apply before you've done everything, or libvirt will remove some parts
+Once the hooks are done, we can finally add our GPU to the VM itself.<br>
+### Note: DON'T apply unless you've done everything, or libvirt will remove some parts 
 
 replace the 1st line:
 ```xml
@@ -72,7 +76,7 @@ next, go down all the way. You'll find those two tags:
   </devices>
 </domain>
 ```
-We'll add our GPU there. Here's a template on how you do it:
+We'll add our GPU there. Use this template to do it:
 ```xml
   </devices>
   <qemu:commandline>
@@ -92,13 +96,13 @@ We'll add our GPU there. Here's a template on how you do it:
 </domain>
 ```
 Replace the "27:00.0", "27:00.1", etc... with your IDs from the hooks step.<br>
-Here i've got 4 different IDs for my graphic card, but if you have more/less you can just add/remove some (except the 1st, all device blocks are the same, just counting up)<br>
-As an example, if i have a 5th ID, i'll just have to add:
+Here i've got 4 different IDs for my graphic card, but if you have more/less you can just add or remove some (except the 1st, all device blocks are the same, just counting up)<br>
+As an example, if I have a 5th ID, I'll just have to add:
 ```xml
     <qemu:arg value="-device"/>
     <qemu:arg value="vfio-pci,host=27:00.4,id=hostpci0.1,bus=pcie.0,addr=0x10.4"/>
 ```
-And if i only have 3, i can just remove lines 9-10 on the example:
+And if I only have 3, I can just remove lines 9-10 on the example:
 ```xml
     <qemu:arg value="-device"/>
     <qemu:arg value="vfio-pci,host=27:00.3,id=hostpci0.3,bus=pcie.0,addr=0x10.3"/>
@@ -106,21 +110,21 @@ And if i only have 3, i can just remove lines 9-10 on the example:
 
 
 # VM final configuration
-- Display VNC, set "Adress" to "All interfaces" (can change back after)
+- On VirtManager, edit the Display VNC and set "Adress" to "All interfaces" (can change back after)
 
 
 # Running the VM
-### Before running the VM, make sure to get the local ip of the computer you're making the vm on!
+### Before running the VM, make sure to note the local ip of your host machine!
 Run the vm. It should hang at some point on your main display.<br>
-Now, open up the VNC Client on your 2nd computer, and connect to [ip of computer running]:5900<br>
-Download the graphics drivers:
+Now, open up the VNC Client on your 2nd computer or phone, then use this ip [host ip]:5900<br>
+Download and install the graphics drivers:
 ### Nvidia:
 > https://www.nvidia.com/en-us/drivers/results/143230/
 ### AMD:
-> use version 20.4.2 of the driver (UNTESTED FOR ME)
+> use version 20.4.2 of the basic driver OR latest version of pro driver which still supports windows 7 (you'll not be able to use radeon replay etc)
+> only if the previous option did not worked, use nimez drivers as an emergency solution (and cap some values like the clock speed with afterburner if you're planning on playing games, else the driver will just crash at any moment cause it maximizes performances at the cost of stability)
 
-Install it.<br>
-Once it's done, when it asks you to reboot, click "reboot now", and you should boot back onto the windows 7 desktop on your main PC with your GPU. At this point, you're pretty much done!
+Once it's done, when it asks you to reboot, click "reboot now", you should now boot back and your monitor will work. At this point, you're pretty much done!<br>
 
 
 # Few tweaks
