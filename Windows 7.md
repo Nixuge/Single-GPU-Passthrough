@@ -5,20 +5,20 @@
 
 # Basic VM Setup:
 First, create a VM:<br>
-<img src="images/Global/CreateVmButton.png" width="400"/><br>
+<img src="assets/Global/CreateVmButton.png" width="400"/><br>
 
-<img src="images/Global/CreateVm1.png" width="400"/>
-<img src="images/win7/CreateVm2.png" width="400"/>
-<img src="images/Global/CreateVm3.png" width="400"/><br>
+<img src="assets/Global/CreateVm1.png" width="400"/>
+<img src="assets/win7/CreateVm2.png" width="400"/>
+<img src="assets/Global/CreateVm3.png" width="400"/><br>
 
 You can change the disk size to whathever you want here<br>
-<img src="images/Global/CreateVm4.png" width="400"/><br>
+<img src="assets/Global/CreateVm4.png" width="400"/><br>
 
 On the last step, make sure to hit "Customize configuration before install"<br>
-<img src="images/win7/CreateVm5.png" width="400"/><br>
+<img src="assets/win7/CreateVm5.png" width="400"/><br>
 
 After that you should have this screen. On firmware, select the UEFI x86_64 like in the screenshot<br>
-<img src="images/win7/CreateVmConfigure1.png" width="800"/><br>
+<img src="assets/win7/CreateVmConfigure1.png" width="800"/><br>
 
 
 # VM Configuration

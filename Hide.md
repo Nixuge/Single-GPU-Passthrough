@@ -31,10 +31,13 @@ Next, right under the losing hyperv tag, add the same lines as below:
 
 ### Note: this **WILL** make your VM slower, sometimes by a lot. For some games it doesn't matter that much, but it's still recommended that you leave that on if you can.
 
-Find your features closing tag, and add the following lines right below:
+Find your cpu tag, and inside of it add the 2 features lines in the example below:
 ```xml
-    <feature policy='disable' name='hypervisor'/>
-    <feature policy='require' name='invtsc'/>
+<cpu mode="..." check="..." migratable="...">
+    ...
+    <feature policy="disable" name="hypervisor"/>
+    <feature policy="require" name="invtsc"/>
+</cpu>
 ```
 
 # Other [pafish](https://github.com/a0rtega/pafish) fixes
@@ -57,9 +60,9 @@ Find your features closing tag, and add the following lines right below:
 
 ### [\*] Scsi port->bus->target id->logical unit id-> 0 identifier ... traced!<br>[\*] Reg key (HKLM\HARDWARE\Description\System "SystemBiosVersion") ... traced!
 
-#### Permanent fix:
-> See [#Recompile Qemu with fixes](#recompile-qemu-with-fixes)
-#### Temporary fix (every reboot):
+<details> 
+<summary> ### Temporary fix (every reboot, not recommended): </summary>
+
 > Change the following registery keys:<br>
 > ### `Computer\HKEY_LOCAL_MACHINE\HARDWARE\DEVICEMAP\Scsi\Scsi Port 0\Scsi Bus 0\Target Id 0\Logical Unit Id 0`
 > > Identifier: "CT1000MX500SSD1"<br>
@@ -72,7 +75,14 @@ Find your features closing tag, and add the following lines right below:
 > > SystemVersion: "To Be Filled By O.E.M."<br>
 > > BIOSVendor: "American Megatrends Inc."<br>
 > > BIOSVersion: "P4.40"<br>
+> 
+</details>
 
+#### Permanent proper fix:
+> See [#Recompile Qemu with fixes](#recompile-qemu-with-fixes)
+
+#### Permanent easier fix:
+> [Download this file](assets/hide/HideVM.reg) and run it on startup (shell:startup folder)
 
 ### [\*] cpuid CPU brand string 'QEMU Virtual CPU' ... traced!
 > Change your CPU model to something else, usually "Host Passthrough" is recommended.
