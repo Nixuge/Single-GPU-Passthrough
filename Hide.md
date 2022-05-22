@@ -41,21 +41,21 @@ Find your features closing tag, and add the following lines right below:
 
 ## Note: Not sure if those are used in real detection, but better safe than sorry.
 
-### [\*] Checking mouse click activity ... <font color='#ff4747'>traced!</font><br>[\*] Checking mouse double click activity ... <font color='#ff4747'>traced!</font><br>[\*] Checking operating system uptime using GetTickCount() ... <font color='#ff4747'>traced!</font>
+### [\*] Checking mouse click activity ... traced!<br>[\*] Checking mouse double click activity ... traced!<br>[\*] Checking operating system uptime using GetTickCount() ... traced!
 > Those checks are pretty inconsistent and i've seen the mouse ones getting triggered even with the logitech drivers on and installed. You can just ignore them.
 
 
-### [\*] Checking the difference between CPU timestamp counters (rdtsc) forcing VM exit ... <font color='#ff4747'>traced!</font>
+### [\*] Checking the difference between CPU timestamp counters (rdtsc) forcing VM exit ... traced!
 > Haven't tested any myself for this one, so here are a few possible options: <br>
 > https://github.com/SamuelTulach/BetterTiming <br>
 > https://github.com/WCharacter/RDTSC-KVM-Handler
 
 
-### [\*]Checking hypervisor bit in cpuid feature bits ... <font color='#ff4747'>traced!</font><br>[\*]Checking cpuid hypervisor vendor for known VM vendors ... <font color='#ff4747'>traced!</font>
+### [\*]Checking hypervisor bit in cpuid feature bits ... traced!<br>[\*]Checking cpuid hypervisor vendor for known VM vendors ... traced!
 > See [#Disable the hypervisor](#disable-the-hypervisor)
 
 
-### [\*] Scsi port->bus->target id->logical unit id-> 0 identifier ... <font color='#ff4747'>traced!</font><br>[\*] Reg key (HKLM\HARDWARE\Description\System "SystemBiosVersion") ... <font color='#ff4747'>traced!</font>
+### [\*] Scsi port->bus->target id->logical unit id-> 0 identifier ... traced!<br>[\*] Reg key (HKLM\HARDWARE\Description\System "SystemBiosVersion") ... traced!
 
 #### Permanent fix:
 > See [#Recompile Qemu with fixes](#recompile-qemu-with-fixes)
@@ -74,7 +74,7 @@ Find your features closing tag, and add the following lines right below:
 > > BIOSVersion: "P4.40"<br>
 
 
-### [\*] cpuid CPU brand string 'QEMU Virtual CPU' ... <font color='#ff4747'>traced!</font>
+### [\*] cpuid CPU brand string 'QEMU Virtual CPU' ... traced!
 > Change your CPU model to something else, usually "Host Passthrough" is recommended.
 
 

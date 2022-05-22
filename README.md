@@ -25,4 +25,4 @@ For all of those VMs, you'll need:
 [Windows 10/11](Windows%2010.md)<br>
 [Windows 7](Windows%207.md)<br>
 Additional:<br>
-[Hide the VM (win10)](Hide/README.md)
+[Hide the VM (win10)](Hide.md)
