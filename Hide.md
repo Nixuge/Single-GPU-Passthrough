@@ -82,7 +82,7 @@ Find your cpu tag, and inside of it add the 2 features lines in the example belo
 > See [#Recompile Qemu with fixes](#recompile-qemu-with-fixes)
 
 #### Permanent easier fix:
-> [Download this file](assets/hide/HideVM.reg) and run it on startup (shell:startup folder)
+> [Download this file](assets/hide/HideVM.reg) and run it on startup (using the task scheduler w highest privileges, on startup, "regedit /s {filename}")
 
 ### [\*] cpuid CPU brand string 'QEMU Virtual CPU' ... traced!
 > Change your CPU model to something else, usually "Host Passthrough" is recommended.
