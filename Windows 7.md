@@ -37,7 +37,7 @@ After that you should have this screen. On firmware, select the UEFI x86_64 like
 You can now launch the VM. It should boot normally to the installer, don't forget to hit a key when it prompts you to.<br>
 When you're at the installer, at the disk step, you'll get an error. Just hit the button to load drivers from a disk, select the disk you added in the previous step and it should automatically find the disk driver (select the win7 one)
 ## Network Driver
-Once you're booted into windows, Open the device manager. Your "ethernet" device should show up w a warning sign. Right click on it and install a driver for it. When it asks you to locate the driver, select "local" and point it to the VirtIO disk (make sure you checked the 'subfolders' option!) You should now have some internet on your VM (if you don't, reboot). While you're at it, take some time to install firefox now.
+Once you're booted into windows, Open the device manager. Your "ethernet" device should show up with a warning sign. Right click on it and install a driver for it. When it asks you to locate the driver, select "local" and point it to the VirtIO disk (make sure you checked the 'subfolders' option!) You should now have some internet on your VM (if you don't, reboot). While you're at it, take some time to install firefox now.
 
 
 # Configure Qemu
@@ -92,7 +92,7 @@ We'll add our GPU there. Here's a template on how you do it:
 </domain>
 ```
 Replace the "27:00.0", "27:00.1", etc... with your IDs from the hooks step.<br>
-Here i've got 4 different IDs for my graphic card, but if you have more/less you can just add/remove some (except the 1st, all device blocks are the same w just the number counting up)<br>
+Here i've got 4 different IDs for my graphic card, but if you have more/less you can just add/remove some (except the 1st, all device blocks are the same, just counting up)<br>
 As an example, if i have a 5th ID, i'll just have to add:
 ```xml
     <qemu:arg value="-device"/>
