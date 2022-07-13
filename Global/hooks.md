@@ -95,9 +95,9 @@ echo 0 > /sys/class/vtconsole/vtcon0/bind
 echo 0 > /sys/class/vtconsole/vtcon1/bind
 
 # Unbind EFI-Framebuffer
-echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-fr>
+echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
 
-# Avoid a Race condition by waiting 2 seconds. This can b>
+# Avoid a Race condition by waiting 2 seconds. This can be calibrated to be shorter or longer if required for your system
 sleep 2
 
 #unload the nvidia drivers
@@ -146,11 +146,11 @@ modprobe nvidia_drm
 
 # Rebind VT consoles
 echo 1 > /sys/class/vtconsole/vtcon0/bind
-# Some machines might have more than 1 virtual console. A>
+# Some machines might have more than 1 virtual console. Add a line for each corresponding VTConsole
 #echo 1 > /sys/class/vtconsole/vtcon1/bind
 
 nvidia-xconfig --query-gpu-info > /dev/null 2>&1
-echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi->
+echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
 
 # Restart Display Manager
 #same as before, change if different display manager
