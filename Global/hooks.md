@@ -89,7 +89,7 @@ echo 0 > /sys/class/vtconsole/vtcon0/bind
 echo 0 > /sys/class/vtconsole/vtcon1/bind
 
 # Unbind EFI-Framebuffer
-echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-fr>
+echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
 
 # Avoid a Race condition by waiting 2 seconds. This can b>
 sleep 2
@@ -144,7 +144,7 @@ echo 1 > /sys/class/vtconsole/vtcon0/bind
 #echo 1 > /sys/class/vtconsole/vtcon1/bind
 
 nvidia-xconfig --query-gpu-info > /dev/null 2>&1
-echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi->
+echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind
 
 # Restart Display Manager
 #same as before, change if different display manager
